@@ -1,0 +1,18 @@
+{
+  "name": "lowback",
+  "version": "1.0.0",
+  "description": "",
+  "repository": "https://github.com/unsteelix/lowback_dev.git",
+  "main": "build/index.js",
+  "scripts": {
+    "start": "tsc && node build/index.js",
+    "dev": "tsc --watch"
+  },
+  "author": "unsteelix <unsteelix@yandex.ru>",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.5.2"
+  },
+  "dependencies": {
+  }
+}

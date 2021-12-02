@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+      "outDir": "./build",
+      "allowJs": true,
+      "target": "esnext",
+      "sourceMap": true,
+      "module": "commonjs",
+      "moduleResolution": "node",
+
+      "allowUnreachableCode": false,
+      "strict": true,
+      "noUnusedParameters": true,
+      "noUnusedLocals": true,
+      "noUncheckedIndexedAccess": true,
+      "noImplicitReturns": true,
+    },
+    "include": ["./src/**/*"]
+  }

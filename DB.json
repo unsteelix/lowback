@@ -1,4 +1,8 @@
 {
+    "list": [
+        "newsss",
+        "newsss"
+    ],
     "test": "test",
     "json": {
         "test": [
@@ -12,9 +16,12 @@
         "users": [
             "1",
             "2",
+            {
+                "id": 2,
+                "name": "myI"
+            },
             "newsss",
-            "UP",
-            null
+            "UP"
         ],
         "other": [
             "123",

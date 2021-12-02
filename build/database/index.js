@@ -66,6 +66,36 @@ class Database {
             throw new Error(e.message);
         }
     }
+    count(path) {
+        log.info('[COUNT] ' + path);
+        try {
+            return this.db.count(path);
+        }
+        catch (e) {
+            log.error(e.message);
+            throw new Error(e.message);
+        }
+    }
+    index(path, index, propertyName) {
+        log.info('[INDEX] ' + path + ' ' + index + (propertyName ? ' ' + propertyName : ''));
+        try {
+            let value = null;
+            if (propertyName) {
+                value = this.db.getIndex(path, index, propertyName);
+            }
+            else {
+                value = this.db.getIndex(path, index);
+            }
+            if (value === -1) {
+                return null;
+            }
+            return value;
+        }
+        catch (e) {
+            log.error(e.message);
+            throw new Error(e.message);
+        }
+    }
     reload() {
         this.db.reload();
         log.info('DB was reload');

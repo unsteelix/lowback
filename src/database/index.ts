@@ -74,6 +74,42 @@ class Database {
         }
     }
     
+    count(path: string) {
+        log.info('[COUNT] ' + path)
+
+        try {
+            return this.db.count(path);
+        } catch(e: any) {
+            log.error(e.message)
+            throw new Error(e.message)
+        }
+    }
+
+    index(path: string, index: string | number, propertyName?: string) {
+        log.info('[INDEX] ' + path + ' ' + index + (propertyName ? ' ' + propertyName : ''))
+
+        try {
+            let value = null;
+
+            if(propertyName){
+                value = this.db.getIndex(path, index, propertyName);
+            } else {
+                value = this.db.getIndex(path, index);
+            }
+
+            if (value === -1) {
+                return null
+            }
+
+            return value
+
+        } catch(e: any) {
+            log.error(e.message)
+            throw new Error(e.message)
+        }
+    }
+
+
 
     reload() {
         this.db.reload();

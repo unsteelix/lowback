@@ -8,19 +8,85 @@ class Database {
     db: any;
 
     constructor(filepath: string) {
+        if(!filepath) {
+            throw new Error('Filepath to DB not found')
+        }
         this.filepath = filepath;
-        this.db = new JsonDB(new Config(filepath, true, true, '/'));
+
+        try {
+            this.db = new JsonDB(new Config(filepath, true, true, '/'));
+        } catch(e: any) {
+            log.fatal(e)
+            throw new Error(e.message)
+        }
         log.info('Initialization DB')
     }
 
     get(path: string) {
-        log.info('GET ' + path)
-        const data = this.db.getData(path);
-        return data;
+        log.info('[GET] ' + path)
+
+        try {
+            const data = this.db.getData(path);
+            log.info(data)
+            return data;
+        } catch(e: any) {
+            log.error(e.message)
+            throw new Error(e.message)
+        }
     }
+
+    push(path: string, data: any) {
+        log.info('[PUSH] ' + path)
+        log.info(data)
+
+        try {
+            this.db.push(path, data);
+            return this.db.getData(path)
+        } catch(e: any) {
+            log.error(e.message)
+            throw new Error(e.message)
+        }
+    }
+
+    merge(path: string, data: any) {
+        log.info('[MERGE] ' + path)
+        log.info(data)
+
+        try {
+            this.db.push(path, data, false);
+            return this.db.getData(path)
+        } catch(e: any) {
+            log.error(e.message)
+            throw new Error(e.message)
+        }
+    }
+
+    delete(path: string) {
+        log.info('[DELETE] ' + path)
+        this.checkPath(path);
+
+        try {
+            this.db.delete(path);
+            return true
+        } catch(e: any) {
+            log.error(e.message)
+            throw new Error(e.message)
+        }
+    }
+    
 
     reload() {
         this.db.reload();
+        log.info('DB was reload')
+    }
+
+    checkPath(path: string) {
+        try {
+            this.db.getData(path)
+        } catch(e: any) {
+            log.error(e.message)
+            throw new Error(e.message)
+        }
     }
 
 }

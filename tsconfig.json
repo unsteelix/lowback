@@ -4,7 +4,6 @@
       "allowJs": true,
       "target": "esnext",
       "sourceMap": true,
-      "module": "commonjs",
       "moduleResolution": "node",
 
       "allowUnreachableCode": false,
@@ -13,6 +12,17 @@
       "noUnusedLocals": true,
       "noUncheckedIndexedAccess": true,
       "noImplicitReturns": true,
+
+      "baseUrl": "src",
+      "paths": { 
+          "/*": ["./*"] 
+        },
+
+      "plugins": [
+        {
+          "transform": "@zerollup/ts-transform-paths",
+        }
+      ]
     },
     "include": ["./src/**/*"]
   }

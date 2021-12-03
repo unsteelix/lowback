@@ -5,6 +5,7 @@
       "target": "esnext",
       "sourceMap": true,
       "moduleResolution": "node",
+      "esModuleInterop": true,
 
       "allowUnreachableCode": false,
       "strict": true,

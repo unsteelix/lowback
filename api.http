@@ -1,0 +1,51 @@
+GET http://localhost:8000/live
+
+###
+
+GET http://localhost:8000/
+
+###      PUSH
+
+POST http://localhost:8000/push/test
+content-type: application/json
+
+{
+    "name": "sample",
+    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+}
+
+###      MERGE
+
+POST http://localhost:8000/merge/test
+content-type: application/json
+
+{
+    "newName": "sample two",
+    "list": [{
+        "id": "asd",
+        "title": "mrt df"
+    },{
+        "id": 33,
+        "title": "ewhjj"
+    }]
+}
+
+###      DELETE
+
+GET http://localhost:8000/delete/test/time
+
+###      COUNT
+
+GET http://localhost:8000/count/test/list
+
+###      INDEX
+
+GET http://localhost:8000/index/test/list/33
+
+###      INDEX WITH CUSTOM PROPERTY NAME
+
+GET http://localhost:8000/index/custom/test/list/ewhjj/title
+
+###      RELOAD
+
+GET http://localhost:8000/reload

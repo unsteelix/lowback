@@ -1,6 +1,4 @@
 import pino from 'pino';
-//import { Logger } from "tslog";
-
 
 const logger = pino({
   transport: {
@@ -10,8 +8,5 @@ const logger = pino({
     }
   }
 })
-
-
-//const logger: Logger = new Logger();
 
 export default logger;

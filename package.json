@@ -14,12 +14,14 @@
   "devDependencies": {
     "@zerollup/rollup-preset-ts": "^1.7.18",
     "@zerollup/ts-transform-paths": "^1.7.18",
+    "ts-node": "^10.4.0",
     "ttypescript": "^1.5.13",
     "typescript": "^4.5.2"
   },
   "dependencies": {
     "node-json-db": "^1.4.1",
     "pino": "^7.5.1",
-    "pino-pretty": "^7.2.0"
+    "pino-pretty": "^7.2.0",
+    "tslog": "^3.3.0"
   }
 }

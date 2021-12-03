@@ -86,7 +86,7 @@ class Database {
     }
 
     index(path: string, index: string | number, propertyName?: string) {
-        log.info('[INDEX] ' + path + ' ' + index + (propertyName ? ' ' + propertyName : ''))
+        log.info(`[INDEX] ${path} ${index}${propertyName ? ' ' + propertyName : ''}`)
 
         try {
             let value = null;
@@ -109,11 +109,15 @@ class Database {
         }
     }
 
-
-
     reload() {
-        this.db.reload();
-        log.info('DB was reload')
+        try {
+            this.db.reload();
+            log.info('DB was reload')
+            return true
+        } catch(e: any) {
+            log.error(e.message)
+            throw new Error(e.message)
+        }
     }
 
     checkPath(path: string) {

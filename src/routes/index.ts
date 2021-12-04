@@ -8,6 +8,8 @@ import indexRoute from './getIndex';
 import reloadRoute from './reload';
 import getRoute from './get';
 import backupRoute from './backup';
+import pageUploadRoute from './pageUpload';
+import uploadRoute from './upload';
 
 const router = {
     liveRoute,
@@ -19,7 +21,9 @@ const router = {
     indexRoute,
     reloadRoute,
     getRoute,
-    backupRoute
+    backupRoute,
+    pageUploadRoute,
+    uploadRoute
 }
 
 export default router

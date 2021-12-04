@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import fileUpload from 'express-fileupload';
 import log from './logger';
 import router from './routes';
 import config from './config';
@@ -8,6 +9,7 @@ const app = express();
 
 // middlewares
 app.use(bodyParser.json())
+app.use(fileUpload());
 
 // router
 app.get('/live', router.liveRoute);
@@ -29,6 +31,10 @@ app.get('/index/*/:index', router.indexRoute);
 app.get('/reload', router.reloadRoute);
 
 app.get('/backup', router.backupRoute)
+
+app.get('/page/upload', router.pageUploadRoute)
+
+app.post('/upload', router.uploadRoute)
 
 
 // server

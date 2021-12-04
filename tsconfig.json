@@ -1,8 +1,9 @@
 {
     "compilerOptions": {
-      "outDir": "./build",
+      "outDir": "./dist",
       "allowJs": true,
-      "target": "esnext",
+      "module": "es6",
+      "target": "es5",
       "sourceMap": true,
       "moduleResolution": "node",
       "esModuleInterop": true,
@@ -15,15 +16,6 @@
       "noImplicitReturns": true,
 
       "baseUrl": "src",
-      "paths": { 
-          "/*": ["./*"] 
-        },
-
-      "plugins": [
-        {
-          "transform": "@zerollup/ts-transform-paths",
-        }
-      ]
     },
     "include": ["./src/**/*"]
   }

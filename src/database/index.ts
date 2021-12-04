@@ -1,6 +1,7 @@
 import { JsonDB } from 'node-json-db';
 import { Config } from 'node-json-db/dist/lib/JsonDBConfig'
-import log from '/logger';
+import log from '../logger';
+import config from '../config'
 
 class Database {
 
@@ -131,4 +132,6 @@ class Database {
 
 }
 
-export default Database
+const DB = new Database(config.DB_filepath);
+
+export default DB

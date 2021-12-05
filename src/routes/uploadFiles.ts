@@ -1,11 +1,13 @@
 import { Request, Response } from 'express';
 import path from 'path';
+import { uid } from 'uid/secure';
+import DB from '../database'
 import log from '../logger';
 
 const __dirname = path.resolve();
 
-const uploadRoute = (req: Request, res: Response) => {
-    log.info('[UPLOAD]');
+const uploadFilesRoute = (req: Request, res: Response) => {
+    log.info('[UPLOAD FILES]');
     
     if(!req.files || Object.keys(req.files).length === 0){    
         throw new Error('must be at least one file')
@@ -17,12 +19,9 @@ const uploadRoute = (req: Request, res: Response) => {
     const forms: any[] = Object.values(req.files);
 
     /**
-     * объединяем все формы в одну
+     * объединяем все файлы из всех форм в один список
      */
     let files: any[] = forms.flat(); 
-    
-    //console.log('\n\n', files, '\n\n')
-
 
     /**
      * перемещаем файл
@@ -34,11 +33,13 @@ const uploadRoute = (req: Request, res: Response) => {
     files.forEach((file: any) => {
 
         const { name, size, mimetype } = file;
-        const format = mimetype.split('/')[1];
 
-        const uploadPath = path.join(__dirname , '/files/', `${name}.${format}`);
+        const id = uid(32);
 
-        log.info(uploadPath)
+        const format = name.split('.')[name.split('.').length - 1]
+        const newName = `${id}.${format}`;
+        
+        const uploadPath = path.join(__dirname , '/files/', newName);
 
         const promise = new Promise((resolve, reject) => {
             file.mv(uploadPath, (err: any) => {
@@ -52,16 +53,26 @@ const uploadRoute = (req: Request, res: Response) => {
                     reject(val)
 
                 } else {
+
                     const val = {
                         status: "success",
                         value: {
-                            name: name,
-                            size: size,
-                            type: mimetype,
-                            path: uploadPath,
-                            id: 'dfgfdg'
+                            id,
+                            name,
+                            size,
+                            mimetype,
+                            path: `/files/${id}`,
                         }
                     }
+
+                    DB.push(`/files/${id}`, {
+                        id,
+                        name: newName,
+                        originalName: name,
+                        size,
+                        mimetype,
+                        type: 'file'
+                    })
                     listRes.push(val)
 
                     resolve(val)
@@ -71,8 +82,6 @@ const uploadRoute = (req: Request, res: Response) => {
         });
 
         listPromise.push(promise)
-
-        // console.log(file)
     })
 
     Promise.all(listPromise).then(() => {
@@ -82,4 +91,4 @@ const uploadRoute = (req: Request, res: Response) => {
     })
 }
 
-export default uploadRoute
+export default uploadFilesRoute

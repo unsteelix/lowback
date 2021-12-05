@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import fileUpload from 'express-fileupload';
+import errorhandler  from 'errorhandler';
 import log from './logger';
 import router from './routes';
 import config from './config';
@@ -10,6 +11,7 @@ const app = express();
 // middlewares
 app.use(bodyParser.json())
 app.use(fileUpload());
+app.use(errorhandler())
 
 // router
 app.get('/live', router.liveRoute);
@@ -34,7 +36,15 @@ app.get('/backup', router.backupRoute)
 
 app.get('/page/upload', router.pageUploadRoute)
 
-app.post('/upload', router.uploadRoute)
+app.post('/upload/files', router.uploadFilesRoute)
+
+app.post('/upload/images', router.uploadImagesRoute)
+
+app.get('/files/:id', router.filesRoute);
+
+app.get('/images/:id', router.imagesRoute);
+
+app.get('/images/:id/:version', router.imagesRoute);
 
 
 // server
@@ -76,6 +86,13 @@ app.listen(config.PORT, () => {
  * [GET]  /index/custom/*
  * [GET]  /reload
  * [GET]  /backup
+ * 
+ * [GET]  /page/upload
+ * 
+ * [GET]  /files/*
+ * 
+ * [POST] /upload/files
+ * [POST] /upload/images
  * 
  * [GET]  /auth/*
  * 

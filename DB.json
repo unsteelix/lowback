@@ -20,5 +20,35 @@
                 "title": "ewhjj"
             }
         ]
+    },
+    "files": {
+        "5a9ac13d76e1e3545efd06a8b11938f1": {
+            "id": "5a9ac13d76e1e3545efd06a8b11938f1",
+            "name": "5a9ac13d76e1e3545efd06a8b11938f1.png",
+            "originalName": "ava_anime.png",
+            "size": 120871,
+            "mimetype": "image/png",
+            "type": "image",
+            "data": {
+                "optimized": "5a9ac13d76e1e3545efd06a8b11938f1_optimized.webp",
+                "w1920": "5a9ac13d76e1e3545efd06a8b11938f1_w1920.webp",
+                "w1280": "5a9ac13d76e1e3545efd06a8b11938f1_w1280.webp",
+                "w640": "5a9ac13d76e1e3545efd06a8b11938f1_w640.webp"
+            }
+        },
+        "c7a30db402fec39ae38be05649656b0b": {
+            "id": "c7a30db402fec39ae38be05649656b0b",
+            "name": "c7a30db402fec39ae38be05649656b0b.png",
+            "originalName": "ava_anime.png",
+            "size": 120871,
+            "mimetype": "image/png",
+            "type": "image",
+            "data": {
+                "optimized": "c7a30db402fec39ae38be05649656b0b_optimized.webp",
+                "w1920": "c7a30db402fec39ae38be05649656b0b_w1920.webp",
+                "w1280": "c7a30db402fec39ae38be05649656b0b_w1280.webp",
+                "w640": "c7a30db402fec39ae38be05649656b0b_w640.webp"
+            }
+        }
     }
 }

@@ -9,7 +9,10 @@ import reloadRoute from './reload';
 import getRoute from './get';
 import backupRoute from './backup';
 import pageUploadRoute from './pageUpload';
-import uploadRoute from './upload';
+import uploadFilesRoute from './uploadFiles';
+import uploadImagesRoute from './uploadImages';
+import filesRoute from './files';
+import imagesRoute from './images';
 
 const router = {
     liveRoute,
@@ -23,7 +26,10 @@ const router = {
     getRoute,
     backupRoute,
     pageUploadRoute,
-    uploadRoute
+    uploadFilesRoute,
+    uploadImagesRoute,
+    filesRoute,
+    imagesRoute
 }
 
 export default router

@@ -1,13 +1,24 @@
 <html>
   <body>
+    <h1>Files</h1>
     <form ref='uploadForm' 
       id='uploadForm' 
-      action='http://localhost:8000/upload' 
+      action='http://localhost:8000/upload/files' 
       method='post' 
       encType="multipart/form-data">
         <input type="file" name="sampleFile" multiple />
         <input type="file" name="sampleFile222" multiple />
-        <input type='submit' value='Upload!' />
+        <input type='submit' value='Upload Files!' />
+    </form>  
+    <h1>Images</h1>
+    <form ref='uploadForm' 
+      id='uploadForm' 
+      action='http://localhost:8000/upload/images' 
+      method='post' 
+      encType="multipart/form-data">
+        <input type="file" name="sampleFile" multiple />
+        <input type="file" name="sampleFile222" multiple />
+        <input type='submit' value='Upload Images!' />
     </form>     
   </body>
 </html>

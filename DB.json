@@ -1,54 +1,65 @@
 {
+    "files": {},
     "test": {
         "time": "Wed, 21 Oct 2015 18:27:50 GMT",
         "newName": "sample two",
-        "list": [
-            {
-                "id": "asd",
-                "title": "mrt df"
-            },
-            {
-                "id": "334wwww44",
-                "title": "ewhjj"
-            },
-            {
-                "id": "asd",
-                "title": "mrt df"
-            },
-            {
-                "id": 33,
-                "title": "ewhjj"
-            }
-        ]
+        "list": []
     },
-    "files": {
-        "5a9ac13d76e1e3545efd06a8b11938f1": {
-            "id": "5a9ac13d76e1e3545efd06a8b11938f1",
-            "name": "5a9ac13d76e1e3545efd06a8b11938f1.png",
-            "originalName": "ava_anime.png",
-            "size": 120871,
-            "mimetype": "image/png",
-            "type": "image",
-            "data": {
-                "optimized": "5a9ac13d76e1e3545efd06a8b11938f1_optimized.webp",
-                "w1920": "5a9ac13d76e1e3545efd06a8b11938f1_w1920.webp",
-                "w1280": "5a9ac13d76e1e3545efd06a8b11938f1_w1280.webp",
-                "w640": "5a9ac13d76e1e3545efd06a8b11938f1_w640.webp"
-            }
+    "tokens": {
+        "master": {
+            "12345678": [
+                "master_token"
+            ]
         },
-        "c7a30db402fec39ae38be05649656b0b": {
-            "id": "c7a30db402fec39ae38be05649656b0b",
-            "name": "c7a30db402fec39ae38be05649656b0b.png",
-            "originalName": "ava_anime.png",
-            "size": 120871,
-            "mimetype": "image/png",
-            "type": "image",
-            "data": {
-                "optimized": "c7a30db402fec39ae38be05649656b0b_optimized.webp",
-                "w1920": "c7a30db402fec39ae38be05649656b0b_w1920.webp",
-                "w1280": "c7a30db402fec39ae38be05649656b0b_w1280.webp",
-                "w640": "c7a30db402fec39ae38be05649656b0b_w640.webp"
-            }
+        "site_one": {
+            "password_1": [
+                "toke_one",
+                "token_two"
+            ],
+            "password_2": [
+                "toke_one"
+            ]
+        },
+        "site_two": {
+            "password_3": [
+                "token_two"
+            ],
+            "password_4": [
+                "toke_three"
+            ]
         }
-    }
+    },
+    "rights": {
+        "master_token": {
+            "show": [
+                "/"
+            ]
+        },
+        "token_one": {
+            "show": [
+                "/site_one/users",
+                "/site_two"
+            ],
+            "hide": [
+                "/site_one/users/10"
+            ],
+            "secret": [
+                "/site_one/materials"
+            ]
+        },
+        "token_two": {
+            "show": [
+                "/site_two/users",
+                "/site_two/materials"
+            ],
+            "hide": [
+                "/site_two/cards"
+            ]
+        }
+    },
+    "public": [
+        "/test",
+        "/site_one/pages",
+        "/site_two"
+    ]
 }

@@ -18,6 +18,8 @@ content-type: application/json
 
 POST http://localhost:8000/merge/test
 content-type: application/json
+Authorization: Bearer master_token
+Cookie: token=choco; tasty_cookie=strawberry
 
 {
     "newName": "sample two",

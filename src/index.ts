@@ -5,12 +5,15 @@ import errorhandler  from 'errorhandler';
 import log from './logger';
 import router from './routes';
 import config from './config';
+import { initializeDBSkeleton } from './utils';
+import authMiddleware from './middleWares/auth';
 
 const app = express();
 
 // middlewares
 app.use(bodyParser.json())
 app.use(fileUpload());
+app.use(authMiddleware)
 app.use(errorhandler())
 
 // router
@@ -46,10 +49,13 @@ app.get('/images/:id', router.imagesRoute);
 
 app.get('/images/:id/:version', router.imagesRoute);
 
+app.get('/auth/:site/:password', router.authRoute);
+
 
 // server
 app.listen(config.PORT, () => {
   log.info(`[SERVER]: Server is running at http://localhost:${config.PORT}`);
+  initializeDBSkeleton()
 });
 
 

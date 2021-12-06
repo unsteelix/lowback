@@ -13,6 +13,7 @@ import uploadFilesRoute from './uploadFiles';
 import uploadImagesRoute from './uploadImages';
 import filesRoute from './files';
 import imagesRoute from './images';
+import authRoute from './auth';
 
 const router = {
     liveRoute,
@@ -29,7 +30,8 @@ const router = {
     uploadFilesRoute,
     uploadImagesRoute,
     filesRoute,
-    imagesRoute
+    imagesRoute,
+    authRoute
 }
 
 export default router

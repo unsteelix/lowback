@@ -12,7 +12,7 @@ const imagesRoute = (req: Request, res: Response) => {
     const id = params['id'];
     const version = params['version'];
 
-    log.info(`[IMAGES] ${id} ${version}`);
+    log.info(`[IMAGES] ${id} ${version ? version : ''}`);
     
     const __dirname = path.resolve();
 

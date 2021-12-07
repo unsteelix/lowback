@@ -1,10 +1,4 @@
 {
-    "files": {},
-    "test": {
-        "time": "Wed, 21 Oct 2015 18:27:50 GMT",
-        "newName": "sample two",
-        "list": []
-    },
     "tokens": {
         "master": {
             "12345678": [
@@ -31,8 +25,15 @@
     },
     "rights": {
         "master_token": {
-            "show": [
-                "/"
+            "read": {
+                "show": ["/"],
+                "hide": ["/test/name", "/test/list/0"],
+                "secret": ["/test/secret"]
+            },
+            "write": [
+                "/site1",
+                "/site2",
+                "/test"
             ]
         },
         "token_one": {
@@ -58,7 +59,6 @@
         }
     },
     "public": [
-        "/test",
         "/site_one/pages",
         "/site_two"
     ]

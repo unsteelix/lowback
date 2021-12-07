@@ -8,7 +8,7 @@ const backupRoute = (_req: Request, res: Response) => {
     
     const __dirname = path.resolve();
 
-    res.sendFile(path.join(__dirname, config.DB_filepath))
+    res.sendFile(path.join(__dirname, config.contentDB_filepath))
 }
 
 export default backupRoute

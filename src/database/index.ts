@@ -132,6 +132,12 @@ class Database {
 
 }
 
-const DB = new Database(config.DB_filepath);
+const contentDB = new Database(config.contentDB_filepath);
+const serviceDB = new Database(config.serviceDB_filepath);
+const filesDB = new Database(config.filesDB_filepath);
 
-export default DB
+export {
+    contentDB,
+    serviceDB,
+    filesDB
+}

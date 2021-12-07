@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import path from 'path';
 import { uid } from 'uid/secure';
-import DB from '../database'
+import { filesDB as DBF } from '../database'
 import log from '../logger';
 
 const __dirname = path.resolve();
@@ -65,7 +65,7 @@ const uploadFilesRoute = (req: Request, res: Response) => {
                         }
                     }
 
-                    DB.push(`/files/${id}`, {
+                    DBF.push(`/files/${id}`, {
                         id,
                         name: newName,
                         originalName: name,

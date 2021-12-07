@@ -2,12 +2,15 @@ GET http://localhost:8000/live
 
 ###
 
-GET http://localhost:8000/
+GET http://localhost:8000/get/test/secret/
+Authorization: Bearer master_token
+
 
 ###      PUSH
 
 POST http://localhost:8000/push/test
 content-type: application/json
+Authorization: Bearer master_token
 
 {
     "name": "sample",

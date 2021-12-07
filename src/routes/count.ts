@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { trimDataPath } from '../utils';
-import DB from '../database';
+import { contentDB as DBC } from '../database';
 
 const countRoute = (req: Request, res: Response) => {
     const { params }: any = req;
     const path = trimDataPath(`/${params[0]}`);
   
-    const count = DB.count(path);
+    const count = DBC.count(path);
     res.json(count)
 }
 

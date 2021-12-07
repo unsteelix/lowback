@@ -6,14 +6,18 @@ import log from './logger';
 import router from './routes';
 import config from './config';
 import { initializeDBSkeleton } from './utils';
-import authMiddleware from './middleWares/auth';
+import authAPI from './middleWares/authAPI';
+import authDB from './middleWares/authDB';
+
+
 
 const app = express();
 
 // middlewares
 app.use(bodyParser.json())
 app.use(fileUpload());
-app.use(authMiddleware)
+app.use(authAPI)
+app.use(authDB)
 app.use(errorhandler())
 
 // router
@@ -82,28 +86,57 @@ app.listen(config.PORT, () => {
 
 
 /**
- * [GET]  /get/* 
- * [POST] /push/*
- * [POST] /merge/*
- * [GET]  /delete/*
+ * [OPEN]   [GET]  /live 
  * 
- * [GET]  /count/*
- * [GET]  /index/*
- * [GET]  /index/custom/*
- * [GET]  /reload
- * [GET]  /backup
+ * [ANY]    [GET]  /get/* 
+ * [ANY]    [POST] /push/*
+ * [ANY]    [POST] /merge/*
+ * [ANY]    [GET]  /delete/*
  * 
- * [GET]  /page/upload
+ * [ANY]    [GET]  /count/*
+ * [ANY]    [GET]  /index/*
+ * [ANY]    [GET]  /index/custom/*
+ * [MASTER] [GET]  /reload
+ * [MASTER] [GET]  /backup
  * 
- * [GET]  /files/*
+ * [MASTER] [GET]  /page/upload
  * 
- * [POST] /upload/files
- * [POST] /upload/images
+ * [ANY]    [POST] /upload/files
+ * [ANY]    [POST] /upload/images
  * 
- * [GET]  /auth/*
+ * [OPEN]   [GET]  /files/:id
+ * [OPEN]   [GET]  /images/:id
+ * [OPEN]   [GET]  /images/:id/:version
+ * 
+ * [OPEN]   [GET]  /auth/:site/:password
  * 
  * 
  * 
  * 
+ * 
+ */
+
+/**
+ *        level 1:    проверка доступа к определенным API методам
+ *        level 2:    проверка доступа к контентной части БД
+ * 
+ *        level 1: 
+ * 
+ *          роуты доступны только по токену
+ *          /public работает только для чтения. Указывает роуты БД доступные без токена
+ * 
+ *            - [OPEN]   открытые (без необходимости в токене)
+ *            - [MASTER] только с MASTER TOKEN
+ *            - [ANY]    с любым сюществующим токеном
+ *        
+ *          
+ *        level 2: 
+ *            
+ *          -read: /get
+ *            -show
+ *            -hide
+ *            -secret
+ *          -write: /push /merge /delete
+ *            -show
  * 
  */

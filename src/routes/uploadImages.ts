@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import path from 'path';
 import { uid } from 'uid/secure';
-import DB from '../database'
+import { filesDB as DBF } from '../database'
 import { getImgDimensions, optimizeFiles } from '../utils';
 import log from '../logger';
 
@@ -86,7 +86,7 @@ const uploadImagesRoute = (req: Request, res: Response) => {
                         w640
                     }
 
-                    DB.push(`/files/${id}`, {
+                    DBF.push(`/files/${id}`, {
                         id,
                         name: newName,
                         originalName: name,

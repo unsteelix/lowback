@@ -4,7 +4,7 @@ import imageminWebp from 'imagemin-webp';
 import fs from 'fs';
 import path from 'path';
 import { Request } from 'express';
-import DB from '../database';
+import { serviceDB as DBS, contentDB as DBC } from '../database';
 import log from '../logger';
 
 
@@ -99,7 +99,6 @@ interface ICookieMap {
  */
 const getCookies = (req: Request) => {
     const cookieHeader = req.headers.cookie;
-    console.log('\n\n', cookieHeader, '\n\n')
 
     if(!cookieHeader){
         return null;
@@ -191,10 +190,10 @@ export const initializeDBSkeleton = () => {
     }
 
     try {
-        DB.checkPath('/tokens');
+        DBS.checkPath('/tokens');
     } catch(e) {
         log.warn('[SERVER]: DB initialize /tokens')
-        DB.push('/tokens', tokensData)
+        DBS.push('/tokens', tokensData)
     }
 
     /**
@@ -230,10 +229,10 @@ export const initializeDBSkeleton = () => {
     }
 
     try {
-        DB.checkPath('/rights');
+        DBS.checkPath('/rights');
     } catch(e) {
         log.warn('[SERVER]: DB initialize /rights')
-        DB.push('/rights', rightsData)
+        DBS.push('/rights', rightsData)
     }
 
     /**
@@ -245,21 +244,96 @@ export const initializeDBSkeleton = () => {
     ]
 
     try {
-        DB.checkPath('/public');
+        DBS.checkPath('/public');
     } catch(e) {
         log.warn('[SERVER]: DB initialize /public')
-        DB.push('/public', publicData)
+        DBS.push('/public', publicData)
     }
 }
 
 
-/**
- * checking access rights
- */
-export const checkAccessRights = (_path: any) => {
-
+interface IReadRights {
+    "show"?: Array<string>,
+    "hide"?: Array<string>,
+    "secret"?: Array<string>
 }
 
+type IWriteRights = Array<string>
+
+interface ITokenRights {
+    "read"?: IReadRights,
+    "write"?: IWriteRights
+}
+
+/**
+ * checking READ rights
+ * return true if have READ access, else false
+ */
+export const checkReadRights = (dataPath: string, rights: ITokenRights) => {
+    
+    let haveAccess = false
+
+    if(dataPath && rights){
+
+        if('read' in rights && rights.read){
+
+            const read = rights.read
+
+            /**
+             * check SHOW
+             */
+            if(read && read.show && read.show.length > 0){
+                read.show.forEach(path => {
+                    if(isPathConsist(dataPath, path)){
+                        haveAccess = true;
+                    }
+                })
+            }
+
+            /**
+             * check HIDE
+             */
+            if(read && read.hide && read.hide.length > 0){
+                read.hide.forEach(path => {
+                    if(isPathConsist(dataPath, path)){
+                        haveAccess = false;
+                    }
+                })
+            }
+
+        }
+
+    }
+    
+    return haveAccess
+}
+
+
+
+/**
+ * checking WRITE rights
+ * return true if have WRITE access, else false
+ */
+export const checkWriteRights = (dataPath: string, rights: ITokenRights) => {
+    
+    let haveAccess = false
+
+    if(dataPath && rights){
+
+        if('write' in rights && rights["write"] && rights["write"].length > 0){
+            const write = rights["write"]
+            
+            write.forEach((el: string) => {
+                if(dataPath.indexOf(el) === 0){
+                    haveAccess = true;
+                }
+            })
+        }
+
+    }
+    
+    return haveAccess
+}
 
 /**
  * check token existens
@@ -268,7 +342,7 @@ export const isTokenExist = (token: string) => {
 
     let tokens = []
 
-    const data = DB.get('/tokens')
+    const data = DBS.get('/tokens')
     for(let site in data){
         const res = Object.values(data[site])
         tokens.push(res)
@@ -285,7 +359,7 @@ export const isTokenExist = (token: string) => {
 
 
 export const getMasterToken = () => {
-    const data = DB.get('/tokens/master');
+    const data = DBS.get('/tokens/master');
 
     const token: any[] = Object.values(data).flat(2);
 
@@ -301,10 +375,10 @@ export const isRouteDB = (req: Request) => {
     const { url } = req;
 
     const listDataBaseRoute: string[] = [
-        "/get",
-        "/push",
-        "/merge",
-        "/delete",
+        "/get/",
+        "/push/",
+        "/merge/",
+        "/delete/",
     ]
 
     for(let i = 0; i < listDataBaseRoute.length; i++) {
@@ -314,11 +388,267 @@ export const isRouteDB = (req: Request) => {
         }    
     }
 
-    // listDataBaseRoute.forEach(route => {
-    //     if(url.indexOf(route) === 0) {
-    //         return true
-    //     }
-    // })
-
     return false;
+}
+
+/**
+ * return READ or WRITE
+ * 
+ * read: 
+ *   - /get
+ * write:
+ *   - /push 
+ *   - /merge 
+ *   - /delete 
+*/ 
+export const getDBMethodType = (req: Request) => {
+
+    const readMethods = [
+        "/get/"
+    ];
+
+    const writeMethods = [
+        "/push/",
+        "/merge/",
+        "/delete/"
+    ];
+
+    const { url } = req;
+
+    let methodType = null;
+
+    readMethods.forEach(method => {
+        if(url.indexOf(method) === 0){
+            methodType = 'read'
+        }
+    })
+
+    writeMethods.forEach(method => {
+        if(url.indexOf(method) === 0){
+            methodType = 'write'
+        }
+    })
+
+    return methodType
+}
+
+/**
+ * return path (/site_2/pages) from DB route (/get/site_2/pages)
+ * work with routes: /get, /push, /merge, /delete
+ */
+export const getPathFromDBroute = (req: Request) => {
+
+    const routes = [
+        "/get",
+        "/push",
+        "/merge",
+        "/delete"
+    ]
+
+    const { url } = req;
+
+    let path = '';
+
+    routes.forEach(route => {
+        if(url.indexOf(route) === 0) {
+            path = url.slice(route.length, url.length)
+        }
+    })
+
+    return path;
+}
+
+export const getTokenRights = (token: string, key?: 'read' | 'write' | 'show' | 'hide' | 'secret') => {
+    const rights = DBS.get(`/rights/${token}`)
+
+    if(!key) {
+        return rights
+    }
+
+    if(key === 'read') {
+        if('read' in rights && rights.read) {
+            return rights.read
+        }
+    }
+
+    if(key === 'write') {
+        if('write' in rights && rights.write) {
+            return rights.write
+        }
+    }
+
+    if(key === 'show') {
+        if('read' in rights && rights.read) {
+            const read = rights.read;
+            if('show' in read && read.show) {
+                return read.show
+            }        
+        }
+    }
+
+    if(key === 'hide') {
+        if('read' in rights && rights.read) {
+            const read = rights.read;
+            if('hide' in read && read.hide) {
+                return read.hide
+            }        
+        }
+    }
+
+    if(key === 'secret') {
+        if('read' in rights && rights.read) {
+            const read = rights.read;
+            if('secret' in read && read.secret) {
+                return read.secret
+            }        
+        }
+    }
+
+}
+
+
+/**
+ * return true, if this route is public (set in /public)
+ */
+export const isPublicPath = (req: Request): boolean => {
+    const { url } = req; 
+
+    let isPublic = false;
+
+    /**
+     * check public paths for /get route
+     */
+    if(url.indexOf('/get/') === 0) {
+        const publicPaths = DBS.get('/public');
+        const path = url.slice(4, url.length);
+
+        publicPaths.forEach((publicPath: string) => {
+            if(path?.indexOf(publicPath) === 0) {
+                isPublic = true
+            } 
+        });
+    }
+
+    return isPublic
+}
+
+/**
+ * return true if this path is secret
+ */
+export const isSecretPath = (req: Request) => {
+
+    let isSecret = false
+
+    const token = parseTokenFromReq(req);
+    if(token){
+
+        const rights: ITokenRights = getTokenRights(token)
+
+        const path = getPathFromDBroute(req)
+    
+        if(rights && "read" in rights) {
+            const read = rights.read;
+            if(read && "secret" in read) {
+                const secret = read.secret;
+                if(secret && secret.length > 0){
+                    secret.forEach(oneSecretPath => {
+                        if(trimDataPath(oneSecretPath) === trimDataPath(path)) {
+                            isSecret = true
+                        }
+                    })
+                }
+            }
+        }
+        
+    } else {
+        throw new Error ("token not found. Can`t parse secret paths")
+    }
+
+    return isSecret
+}
+
+/**
+ * return true if PATH consist SUB_PATH
+ */
+export const isPathConsist = (path: string, sub_path: string) => {
+
+    if(path.indexOf(sub_path) === 0){
+        return true
+    }
+
+    return false
+}
+
+/**
+ * return secret path by dataPath
+ * 
+ */
+export const getSecretPathByDataPath = (token: string, path: string): string | null => {
+    const rights = getTokenRights(token);
+
+    let res = null
+
+    if('read' in rights && rights.read){
+        const read = rights.read;
+        if('secret' in read && read.secret){
+            const secret = read.secret;
+            if(secret.length > 0) {
+                secret.forEach((oneSecret: string) => {
+                    if(isPathConsist(path, oneSecret)){
+                        res = oneSecret
+                    }
+                });
+            }
+        }
+    }
+
+    return res
+}
+
+/**
+ * get data by path and hidden paths
+ */
+export const getDataWithHiddenPaths = (path: string, hiddenPaths: string[]) => {
+
+    let data = DBC.get(trimDataPath(path));
+
+    /**
+     * make new list hidden paths from paths, who inside main path
+     */
+    const hiddenInnerPaths: string[] = []
+    hiddenPaths.forEach(hiddenPath => {
+        if(isPathConsist(hiddenPath, path)){
+            hiddenInnerPaths.push(hiddenPath)
+        }
+    })
+
+    /**
+     * remove each hidden branch
+     */
+    hiddenInnerPaths.forEach(oneHiddenPath => {
+        const rawParts = trimDataPath(oneHiddenPath).split('/');        
+        let parts: string[] = []
+        
+        rawParts.forEach(part => {
+            if(part && part.length > 0){
+                parts.push(part)
+            }
+        })
+        
+        let branch = data
+
+        parts.forEach((part: string, i: number) => {
+            const keys = Object.keys(branch);
+            keys.forEach(key => {
+                if(key == part){
+                    if(i === parts.length - 1) {
+                        delete branch[key];
+                    }
+                    branch = branch[key]
+                }
+            })
+        })
+    })
+
+    return data
 }

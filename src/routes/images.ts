@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import path from 'path';
-import DB from '../database';
+import { filesDB as DBF } from '../database';
 import log from '../logger';
 
 const versions = [
@@ -22,7 +22,7 @@ const imagesRoute = (req: Request, res: Response) => {
      * original
      */
     if(!version){
-        filePath = DB.get(`/files/${id}/name`)
+        filePath = DBF.get(`/files/${id}/name`)
     } else {
         
         /**
@@ -32,7 +32,7 @@ const imagesRoute = (req: Request, res: Response) => {
             throw new Error(`modificator "${version}" not exist. Available: "optimized", "w1920", "w1280", "w640"`)
         }
 
-        filePath = DB.get(`/files/${id}/data/${version}`)
+        filePath = DBF.get(`/files/${id}/data/${version}`)
     }
 
     res.sendFile(path.join(__dirname, 'files', filePath))

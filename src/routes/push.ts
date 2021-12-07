@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { trimDataPath } from '../utils';
-import DB from '../database';
+import { contentDB as DBC } from '../database';
 
 const pushRoute = (req: Request, res: Response) => {
     const { params }: any = req;
@@ -8,7 +8,7 @@ const pushRoute = (req: Request, res: Response) => {
   
     const data = req.body;
   
-    const newData = DB.push(path, data);
+    const newData = DBC.push(path, data);
     res.json(newData)
 }
 

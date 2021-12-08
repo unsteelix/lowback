@@ -7,52 +7,55 @@ import { checkReadRights, checkWriteRights, isRouteDB, getDBMethodType, getPathF
  * authorization Database middleware
  */
  const authDB = (req: Request, _res: Response, next: NextFunction) => {
-
-    //const { url } = req; 
-
-    /**
-     * is DB route
-     */
-    if(isRouteDB(req)) {
-        const methodType = getDBMethodType(req);
+    try {
 
         /**
-         * PUBLIC paths
+         * is DB route
          */
-        const isPublic = isPublicPath(req);
-        if(methodType === 'read' && isPublic){
-            return next()
-        }
+        if(isRouteDB(req)) {
+            const methodType = getDBMethodType(req);
 
-        /**
-         * PRIVATE paths
-         */
-        const token = parseTokenFromReq(req);
-        if(token) {
+            /**
+             * PUBLIC paths
+             */
+            const isPublic = isPublicPath(req);
+            if(methodType === 'read' && isPublic){
+                return next()
+            }
 
-            const path = getPathFromDBroute(req);
-            const rights = getTokenRights(token)
+            /**
+             * PRIVATE paths
+             */
+            const token = parseTokenFromReq(req);
+            if(token) {
 
-            if(methodType === 'read') {
-            
-                if(!checkReadRights(path, rights)){
-                    throw new Error(`You dont have access READ. But have in ${rights['read']}`)
-                }
+                const path = getPathFromDBroute(req);
+                const rights = getTokenRights(token)
 
-            } else if (methodType === 'write') {
+                if(methodType === 'read') {
+                
+                    if(!checkReadRights(path, rights)){
+                        throw new Error(`You dont have access READ. But have in ${rights['read']}`)
+                    }
 
-                if(!checkWriteRights(path, rights)){
-                    throw new Error(`You dont have access WRITE. But have in ${rights['write']}`)
+                } else if (methodType === 'write') {
+
+                    if(!checkWriteRights(path, rights)){
+                        throw new Error(`You dont have access WRITE. But have in ${rights['write']}`)
+                    }
+
                 }
 
             }
 
+
         }
 
+        return next()
 
+    } catch(e) {
+        next(e)
     }
-
-    return next()
 }
 
 export default authDB;

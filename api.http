@@ -2,7 +2,7 @@ GET http://localhost:8000/live
 
 ###
 
-GET http://localhost:8000/get/test/secret/
+GET http://localhost:8000/get/
 Authorization: Bearer master_token
 
 

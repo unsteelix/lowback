@@ -17,77 +17,77 @@ class Database {
         try {
             this.db = new JsonDB(new Config(filepath, true, true, '/'));
         } catch(e: any) {
-            log.fatal(e)
+            log.fatal(`[DB] ${e.message}`)
             throw new Error(e.message)
         }
-        log.info('Initialization DB')
+        log.warn(`[DB] Initialization ${filepath}`)
     }
 
     get(path: string) {
-        log.info('[GET] ' + path)
+        log.warn('[DB] GET ' + path)
 
         try {
             const data = this.db.getData(path);
-            log.info(data)
+            log.warn(data)
             return data;
         } catch(e: any) {
-            log.error(e.message)
+            log.error(`[DB] ${e.message}`)
             throw new Error(e.message)
         }
     }
 
     push(path: string, data: any) {
-        log.info('[PUSH] ' + path)
-        log.info(data)
+        log.warn('[DB] PUSH ' + path)
+        log.warn(data)
 
         try {
             this.db.push(path, data);
             return this.db.getData(path)
         } catch(e: any) {
-            log.error(e.message)
+            log.error(`[DB] ${e.message}`)
             throw new Error(e.message)
         }
     }
 
     merge(path: string, data: any) {
-        log.info('[MERGE] ' + path)
-        log.info(data)
+        log.warn('[DB] MERGE ' + path)
+        log.warn(data)
 
         try {
             this.db.push(path, data, false);
             return this.db.getData(path)
         } catch(e: any) {
-            log.error(e.message)
+            log.error(`[DB] ${e.message}`)
             throw new Error(e.message)
         }
     }
 
     delete(path: string) {
-        log.info('[DELETE] ' + path)
+        log.warn('[DB] DELETE ' + path)
         this.checkPath(path);
 
         try {
             this.db.delete(path);
             return true
         } catch(e: any) {
-            log.error(e.message)
+            log.error(`[DB] ${e.message}`)
             throw new Error(e.message)
         }
     }
     
     count(path: string) {
-        log.info('[COUNT] ' + path)
+        log.warn('[DB] COUNT ' + path)
 
         try {
             return this.db.count(path);
         } catch(e: any) {
-            log.error(e.message)
+            log.error(`[DB] ${e.message}`)
             throw new Error(e.message)
         }
     }
 
     index(path: string, index: string | number, propertyName?: string) {
-        log.info(`[INDEX] ${path} ${index}${propertyName ? ' ' + propertyName : ''}`)
+        log.warn(`[DB] INDEX ${path} ${index}${propertyName ? ' ' + propertyName : ''}`)
 
         try {
             let value = null;
@@ -105,7 +105,7 @@ class Database {
             return value
 
         } catch(e: any) {
-            log.error(e.message)
+            log.error(`[DB] ${e.message}`)
             throw new Error(e.message)
         }
     }
@@ -113,10 +113,10 @@ class Database {
     reload() {
         try {
             this.db.reload();
-            log.info('DB was reload')
+            log.warn('[DB] reloaded')
             return true
         } catch(e: any) {
-            log.error(e.message)
+            log.error(`[DB] ${e.message}`)
             throw new Error(e.message)
         }
     }
@@ -125,7 +125,7 @@ class Database {
         try {
             this.db.getData(path)
         } catch(e: any) {
-            log.error(e.message)
+            log.error(`[DB] ${e.message}`)
             throw new Error(e.message)
         }
     }

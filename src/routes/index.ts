@@ -1,4 +1,4 @@
-import liveRoute from './live';
+import mainRoute from './main';
 import pushRoute from './push';
 import mergeRoute from './merge';
 import deleteRoute from './delete';
@@ -14,9 +14,10 @@ import uploadImagesRoute from './uploadImages';
 import filesRoute from './files';
 import imagesRoute from './images';
 import authRoute from './auth';
+import notFoundRoute from './notFound';
 
 const router = {
-    liveRoute,
+    mainRoute,
     pushRoute,
     mergeRoute,
     deleteRoute,
@@ -31,7 +32,8 @@ const router = {
     uploadImagesRoute,
     filesRoute,
     imagesRoute,
-    authRoute
+    authRoute,
+    notFoundRoute
 }
 
 export default router

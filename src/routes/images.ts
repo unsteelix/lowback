@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import { filesDB as DBF } from '../database';
 import log from '../logger';
@@ -7,35 +7,41 @@ const versions = [
     'optimized', 'w1920', 'w1280', 'w640'
 ]
 
-const imagesRoute = (req: Request, res: Response) => {
-    const { params }: any = req;
-    const id = params['id'];
-    const version = params['version'];
+const imagesRoute = (req: Request, res: Response, next: NextFunction) => {
+    try {
 
-    log.info(`[IMAGES] ${id} ${version ? version : ''}`);
+        const { params }: any = req;
+        const id = params['id'];
+        const version = params['version'];
     
-    const __dirname = path.resolve();
-
-    let filePath = null;
-
-    /**
-     * original
-     */
-    if(!version){
-        filePath = DBF.get(`/files/${id}/name`)
-    } else {
+        log.info(`[IMAGES] ${id} ${version ? version : ''}`);
         
+        const __dirname = path.resolve();
+    
+        let filePath = null;
+    
         /**
-         * originalOptimized | w1920 | w1280 | w640
+         * original
          */
-        if(!versions.includes(version)){
-            throw new Error(`modificator "${version}" not exist. Available: "optimized", "w1920", "w1280", "w640"`)
+        if(!version){
+            filePath = DBF.get(`/files/${id}/name`)
+        } else {
+            
+            /**
+             * originalOptimized | w1920 | w1280 | w640
+             */
+            if(!versions.includes(version)){
+                throw new Error(`modificator "${version}" not exist. Available: "optimized", "w1920", "w1280", "w640"`)
+            }
+    
+            filePath = DBF.get(`/files/${id}/data/${version}`)
         }
-
-        filePath = DBF.get(`/files/${id}/data/${version}`)
+    
+        res.sendFile(path.join(__dirname, 'files', filePath))
+        
+    } catch(e) {
+        next(e)
     }
-
-    res.sendFile(path.join(__dirname, 'files', filePath))
 }
 
 export default imagesRoute

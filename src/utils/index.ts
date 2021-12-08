@@ -201,29 +201,23 @@ export const initializeDBSkeleton = () => {
      */
     const rightsData = {
         master_token: {
-            show: [
-                "/"
+            read: {
+                show: ['/'],
+                hide: [],
+                secret: []
+            },
+            write: [
+                '/'
             ]
         },
-        token_one: {
-            show: [
-                "/site_one/users",
-                "/site_two"
-            ],
-            hide: [
-                "/site_one/users/10"
-            ],
-            secret: [
-                "/site_one/materials"
-            ]
-        },
-        token_two: {
-            show: [
-                "/site_two/users",
-                "/site_two/materials"
-            ],
-            hide: [
-                "/site_two/cards"
+        another_token: {
+            read: {
+                show: ['/site_2'],
+                hide: ['/site_2/hidden', '/site_2/users'],
+                secret: ['/site_2/pages']
+            },
+            write: [
+                '/site_2'
             ]
         }
     }
@@ -239,8 +233,8 @@ export const initializeDBSkeleton = () => {
      * initialize /public
      */
     const publicData = [
-        "/site_one/pages",
-        "/site_two"
+        "/",
+        "/site_3/"
     ]
 
     try {
@@ -565,6 +559,35 @@ export const isSecretPath = (req: Request) => {
     }
 
     return isSecret
+}
+
+/**
+ * return true, if this path inside secret path
+ */
+export const isInsideSecretPath = (req: Request) => {
+
+    let isInside = false;
+
+    const token = parseTokenFromReq(req);
+    
+    const { params }: any = req;
+    const path = `/${params[0]}`;
+
+    if(token){
+        const secretPath = getSecretPathByDataPath(token, path)
+        if(secretPath){
+            if(isPathConsist(path, secretPath)) {
+
+                const diff = path.length - secretPath.length;
+
+                if(diff >= 2) {
+                    isInside = true
+                }
+            }
+        }
+    }
+
+    return isInside
 }
 
 /**

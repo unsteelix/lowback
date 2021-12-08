@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  </head>
+  <body>
+
+    <h1>server is live</h1>
+    <input type="password" id="pass-input" />
+    
+
+    <script>
+
+      $( "#pass-input" ).keyup((e) => {
+        const pass = e.target.value
+
+        if(pass >= 4){
+
+          $.ajax({
+            url: `/auth/master/${pass}`
+          }).done((res) => {
+            if(res){
+              const token = res[0];
+              
+              document.cookie = `token=${token}`;
+
+              $('body').html(`
+                <div><a href="/get/">/</a></div>
+                <div><a href="/page/upload">upload</a></div>
+                <div><a href="/files/your_image_id">files</a></div>
+                <div><a href="/images/your_image_id">images</a></div>
+                <div><a href="/images/your_image_id/version">images alt ver</a></div>
+              `);
+
+              //window.location.replace("/get/");
+            }
+          });
+
+        }
+
+      });
+
+    </script>
+
+  </body>
+</html>

@@ -1,13 +1,14 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import fileUpload from 'express-fileupload';
-import errorhandler  from 'errorhandler';
+//import errorhandler  from 'errorhandler';
 import log from './logger';
 import router from './routes';
 import config from './config';
 import { initializeDBSkeleton } from './utils';
 import authAPI from './middleWares/authAPI';
 import authDB from './middleWares/authDB';
+import errorResponder from './middleWares/errorResponder';
 
 
 
@@ -18,10 +19,10 @@ app.use(bodyParser.json())
 app.use(fileUpload());
 app.use(authAPI)
 app.use(authDB)
-app.use(errorhandler())
+
 
 // router
-app.get('/live', router.liveRoute);
+app.get('/', router.mainRoute);
 
 app.get('/get/*', router.getRoute);
 
@@ -54,6 +55,10 @@ app.get('/images/:id', router.imagesRoute);
 app.get('/images/:id/:version', router.imagesRoute);
 
 app.get('/auth/:site/:password', router.authRoute);
+
+app.get('*', router.notFoundRoute);
+
+app.use(errorResponder)
 
 
 // server
@@ -113,10 +118,6 @@ app.listen(config.PORT, () => {
  * 
  * 
  * 
- * 
- */
-
-/**
  *        level 1:    проверка доступа к определенным API методам
  *        level 2:    проверка доступа к контентной части БД
  * 
@@ -137,6 +138,6 @@ app.listen(config.PORT, () => {
  *            -hide
  *            -secret
  *          -write: /push /merge /delete
- *            -show
+ *           
  * 
  */

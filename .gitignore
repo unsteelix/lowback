@@ -104,6 +104,8 @@ dist
 .tern-port
 
 files/*
+!files/.gitkeep 
+
 contentDB.json
 serviceDB.json
 filesDB.json

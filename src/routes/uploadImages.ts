@@ -62,17 +62,17 @@ const uploadImagesRoute = (req: Request, res: Response, next: NextFunction) => {
                         /**
                          * get width / height of img
                          */
-                        const dimensions = await getImgDimensions(`files/${newName}`);
+                        const dimensions = await getImgDimensions(uploadPath);
                         const format = dimensions.width / dimensions.height;
     
                         /**
                          * resize and optimize
                          */
-                        const optimized = await optimizeFiles(`files/${newName}`, `files/${id}_optimized.webp`)
+                        const optimized = await optimizeFiles(uploadPath, path.join(__dirname , '/files/', `${id}_optimized.webp`))
     
-                        const w1920 = await optimizeFiles(`files/${newName}`, `files/${id}_w1920.webp`, {width: 1920, height: 1920 / format})
-                        const w1280 = await optimizeFiles(`files/${newName}`, `files/${id}_w1280.webp`, {width: 1280, height: 1280 / format})
-                        const w640 = await optimizeFiles(`files/${newName}`, `files/${id}_w640.webp`, {width: 640, height: 640 / format})
+                        const w1920 = await optimizeFiles(uploadPath, path.join(__dirname , '/files/', `${id}_w1920.webp`), {width: 1920, height: 1920 / format})
+                        const w1280 = await optimizeFiles(uploadPath, path.join(__dirname , '/files/', `${id}_w1280.webp`), {width: 1280, height: 1280 / format})
+                        const w640 = await optimizeFiles(uploadPath, path.join(__dirname , '/files/', `${id}_w640.webp`), {width: 640, height: 640 / format})
     
                         //const extension = path.extname(optimized);
     

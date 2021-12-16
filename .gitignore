@@ -106,6 +106,5 @@ dist
 files/*
 !files/.gitkeep 
 
-contentDB.json
-serviceDB.json
-filesDB.json
+dbs/*
+!dbs/.gitkeep 

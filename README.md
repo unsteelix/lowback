@@ -72,7 +72,7 @@ Start the lowback and restart on every change the code
 |OPEN  |GET   |/images/:id                         |Return image by id 
 |OPEN  |GET   |/images/:id/:version                |Return image by id and version. For ex: /images/fdglewr434wf/optimized. Types: 'optimized', 'w1920', 'w1280', 'w640'
 |OPEN  |GET   |/auth/:site/:password               |Return token by site and pass (login and pass) 
-|MASTER|POST  |/admin/:db/:method/*                |Get | push | merge | delete operations with DBC, DBF, DBS
+|MASTER|POST  |/admin/:db/:method/*                |Get \| push \| merge \| delete operations with DBC, DBF, DBS
 
 
 **OPEN**   - endpoint available without token

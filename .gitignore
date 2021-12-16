@@ -105,3 +105,4 @@ dist
 
 volume/*
 !volume/.gitkeep
+!volume/files/.gitkeep

@@ -6,8 +6,8 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - volume:/app/volume
+      - lowback_volume:/app/volume
     restart: always
 
 volumes:
-  volume:
+  lowback_volume:

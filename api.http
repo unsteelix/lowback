@@ -1,6 +1,4 @@
-GET http://localhost:8000/live
 
-###
 
 GET http://localhost:8000/get/
 Authorization: Bearer master_token
@@ -54,3 +52,8 @@ GET http://localhost:8000/index/custom/test/list/ewhjj/title
 ###      RELOAD
 
 GET http://localhost:8000/reload
+
+###      ADMIN
+
+POST http://localhost:8000/admin/dbc/get/
+Authorization: Bearer master_token

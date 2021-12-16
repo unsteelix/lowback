@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import { uid } from 'uid/secure';
 import { filesDB as DBF } from '../database'
+import { files_path } from '../config';
 import log from '../logger';
 
 const __dirname = path.resolve();
@@ -41,7 +42,7 @@ const uploadFilesRoute = (req: Request, res: Response, next: NextFunction) => {
             const format = name.split('.')[name.split('.').length - 1]
             const newName = `${id}.${format}`;
             
-            const uploadPath = path.join(__dirname , '/files/', newName);
+            const uploadPath = path.join(__dirname , files_path, newName);
     
             const promise = new Promise((resolve, reject) => {
                 file.mv(uploadPath, (err: any) => {

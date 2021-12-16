@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import { filesDB as DBF } from '../database';
+import { files_path } from '../config';
 import log from '../logger';
 
 const versions = [
@@ -37,7 +38,7 @@ const imagesRoute = (req: Request, res: Response, next: NextFunction) => {
             filePath = DBF.get(`/files/${id}/data/${version}`)
         }
     
-        res.sendFile(path.join(__dirname, 'files', filePath))
+        res.sendFile(path.join(__dirname, files_path, filePath))
         
     } catch(e) {
         next(e)

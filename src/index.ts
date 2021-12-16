@@ -55,6 +55,9 @@ app.get('/images/:id/:version', router.imagesRoute);
 
 app.get('/auth/:site/:password', router.authRoute);
 
+app.post('/admin/:db/:method/*', router.adminRoute);
+
+
 app.get('*', router.notFoundRoute);
 
 app.use(errorResponder)

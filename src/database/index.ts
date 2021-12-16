@@ -20,15 +20,15 @@ class Database {
             log.fatal(`[DB] ${e.message}`)
             throw new Error(e.message)
         }
-        log.warn(`[DB] Initialization ${filepath}`)
+        log.info(`[DB] Initialization ${filepath}`)
     }
 
     get(path: string) {
-        log.warn('[DB] GET ' + path)
+        log.info('[DB] GET ' + path)
 
         try {
             const data = this.db.getData(path);
-            log.warn(data)
+            log.info(data)
             return data;
         } catch(e: any) {
             log.error(`[DB] ${e.message}`)
@@ -37,8 +37,8 @@ class Database {
     }
 
     push(path: string, data: any) {
-        log.warn('[DB] PUSH ' + path)
-        log.warn(data)
+        log.info('[DB] PUSH ' + path)
+        log.info(data)
 
         try {
             this.db.push(path, data);
@@ -50,8 +50,8 @@ class Database {
     }
 
     merge(path: string, data: any) {
-        log.warn('[DB] MERGE ' + path)
-        log.warn(data)
+        log.info('[DB] MERGE ' + path)
+        log.info(data)
 
         try {
             this.db.push(path, data, false);
@@ -63,7 +63,7 @@ class Database {
     }
 
     delete(path: string) {
-        log.warn('[DB] DELETE ' + path)
+        log.info('[DB] DELETE ' + path)
         this.checkPath(path);
 
         try {
@@ -76,7 +76,7 @@ class Database {
     }
     
     count(path: string) {
-        log.warn('[DB] COUNT ' + path)
+        log.info('[DB] COUNT ' + path)
 
         try {
             return this.db.count(path);
@@ -87,7 +87,7 @@ class Database {
     }
 
     index(path: string, index: string | number, propertyName?: string) {
-        log.warn(`[DB] INDEX ${path} ${index}${propertyName ? ' ' + propertyName : ''}`)
+        log.info(`[DB] INDEX ${path} ${index}${propertyName ? ' ' + propertyName : ''}`)
 
         try {
             let value = null;
@@ -113,7 +113,7 @@ class Database {
     reload() {
         try {
             this.db.reload();
-            log.warn('[DB] reloaded')
+            log.info('[DB] reloaded')
             return true
         } catch(e: any) {
             log.error(`[DB] ${e.message}`)

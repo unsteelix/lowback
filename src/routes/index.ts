@@ -15,6 +15,7 @@ import filesRoute from './files';
 import imagesRoute from './images';
 import authRoute from './auth';
 import notFoundRoute from './notFound';
+import adminRoute from './admin';
 
 const router = {
     mainRoute,
@@ -33,7 +34,8 @@ const router = {
     filesRoute,
     imagesRoute,
     authRoute,
-    notFoundRoute
+    notFoundRoute,
+    adminRoute
 }
 
 export default router

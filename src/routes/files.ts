@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import { filesDB as DBF } from '../database';
+import { files_path } from '../config';
 import log from '../logger';
 
 const filesRoute = (req: Request, res: Response, next: NextFunction) => {
@@ -15,7 +16,7 @@ const filesRoute = (req: Request, res: Response, next: NextFunction) => {
     
         const filePath = DBF.get(`/files/${id}/name`)
     
-        res.sendFile(path.join(__dirname, 'files', filePath))
+        res.sendFile(path.join(__dirname, files_path, filePath))
         
     } catch(e) {
         next(e)

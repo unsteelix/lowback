@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import { uid } from 'uid/secure';
-import { filesDB as DBF } from '../database'
+import { filesDB as DBF } from '../database';
+import { files_path } from '../config';
 import { getImgDimensions, optimizeFiles } from '../utils';
 import log from '../logger';
 
@@ -42,7 +43,7 @@ const uploadImagesRoute = (req: Request, res: Response, next: NextFunction) => {
             const format = name.split('.')[name.split('.').length - 1]
             const newName = `${id}.${format}`;
             
-            const uploadPath = path.join(__dirname , '/files/', newName);
+            const uploadPath = path.join(__dirname , files_path, newName);
     
             log.info(uploadPath)
     
@@ -68,11 +69,11 @@ const uploadImagesRoute = (req: Request, res: Response, next: NextFunction) => {
                         /**
                          * resize and optimize
                          */
-                        const optimized = await optimizeFiles(uploadPath, path.join(__dirname , '/files/', `${id}_optimized.webp`))
+                        const optimized = await optimizeFiles(uploadPath, path.join(__dirname , files_path, `${id}_optimized.webp`))
     
-                        const w1920 = await optimizeFiles(uploadPath, path.join(__dirname , '/files/', `${id}_w1920.webp`), {width: 1920, height: 1920 / format})
-                        const w1280 = await optimizeFiles(uploadPath, path.join(__dirname , '/files/', `${id}_w1280.webp`), {width: 1280, height: 1280 / format})
-                        const w640 = await optimizeFiles(uploadPath, path.join(__dirname , '/files/', `${id}_w640.webp`), {width: 640, height: 640 / format})
+                        const w1920 = await optimizeFiles(uploadPath, path.join(__dirname , files_path, `${id}_w1920.webp`), {width: 1920, height: 1920 / format})
+                        const w1280 = await optimizeFiles(uploadPath, path.join(__dirname , files_path, `${id}_w1280.webp`), {width: 1280, height: 1280 / format})
+                        const w640 = await optimizeFiles(uploadPath, path.join(__dirname , files_path, `${id}_w640.webp`), {width: 640, height: 640 / format})
     
                         //const extension = path.extname(optimized);
     

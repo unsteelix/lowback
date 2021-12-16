@@ -12,13 +12,14 @@ const APImap: any = {
     '/index/': ['ANY', 'GET'],
     '/index/custom/': ['ANY', 'GET'],
     '/reload': ['MASTER', 'GET'],
-    '/backup': ['MASTER', 'GET'],
+    '/backup/': ['MASTER', 'GET'],
     '/page/upload': ['MASTER', 'GET'],
     '/upload/files': ['ANY', 'POST'],
     '/upload/images': ['ANY', 'POST'],
     '/files/': ['OPEN', 'GET'],
     '/images/': ['OPEN', 'GET'],
-    '/auth/': ['OPEN', 'GET']
+    '/auth/': ['OPEN', 'GET'],
+    '/admin/': ['MASTER', 'POST']
 }
 
 /**

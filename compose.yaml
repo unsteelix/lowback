@@ -1,0 +1,13 @@
+services:
+
+  lowback:
+    build: 
+      context: .
+    ports:
+      - 8000:8000
+    volumes:
+      - volume:/app/volume
+    restart: always
+
+volumes:
+  volume:

@@ -41,7 +41,7 @@ app.get('/reload', router.reloadRoute);
 
 app.get('/backup/:type', router.backupRoute)
 
-app.get('/page/upload', router.pageUploadRoute)
+app.get('/page/:page', router.pageRoute)
 
 app.post('/upload/files', router.uploadFilesRoute)
 

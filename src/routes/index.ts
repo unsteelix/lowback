@@ -8,7 +8,7 @@ import indexRoute from './getIndex';
 import reloadRoute from './reload';
 import getRoute from './get';
 import backupRoute from './backup';
-import pageUploadRoute from './pageUpload';
+import pageRoute from './page';
 import uploadFilesRoute from './uploadFiles';
 import uploadImagesRoute from './uploadImages';
 import filesRoute from './files';
@@ -28,7 +28,7 @@ const router = {
     reloadRoute,
     getRoute,
     backupRoute,
-    pageUploadRoute,
+    pageRoute,
     uploadFilesRoute,
     uploadImagesRoute,
     filesRoute,

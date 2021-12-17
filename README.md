@@ -65,7 +65,9 @@ Start the lowback and restart on every change the code
 |MASTER|GET   |/backup/content                     |Return json file of content DB
 |MASTER|GET   |/backup/service                     |Return json file of service DB 
 |MASTER|GET   |/backup/files                       |Return json file of files DB
+|MASTER|GET   |/page/auth                          |Page with auth forms
 |MASTER|GET   |/page/upload                        |Page with files/images upload forms
+|MASTER|GET   |/page/admin                         |Page with edit form
 |ANY   |POST  |/upload/files                       |Endpoint for files upload
 |ANY   |POST  |/upload/images                      |Endpoint for images upload 
 |OPEN  |GET   |/files/:id                          |Return file by id

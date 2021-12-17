@@ -13,7 +13,7 @@
       $( "#pass-input" ).keyup((e) => {
         const pass = e.target.value
 
-        if(pass >= 4){
+        if(pass.length >= 4){
 
           $.ajax({
             url: `/auth/master/${pass}`
@@ -26,6 +26,7 @@
               $('body').html(`
                 <div><a href="/get/">/</a></div>
                 <div><a href="/page/upload">upload</a></div>
+                <div><a href="/page/admin">admin</a></div>
                 <div><a href="/files/your_image_id">files</a></div>
                 <div><a href="/images/your_image_id">images</a></div>
                 <div><a href="/images/your_image_id/version">images alt ver</a></div>

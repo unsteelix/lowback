@@ -7,13 +7,10 @@ Authorization: Bearer master_token
 ###      PUSH
 
 POST http://localhost:8000/push/test
-content-type: application/json
+content-type: application/json; charset=UTF-8
 Authorization: Bearer master_token
 
-{
-    "name": "sample",
-    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
-}
+"dsfsdf"
 
 ###      MERGE
 

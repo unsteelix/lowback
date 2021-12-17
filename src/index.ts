@@ -14,7 +14,10 @@ import errorResponder from './middleWares/errorResponder';
 const app = express();
 
 // middlewares
-app.use(bodyParser.json())
+app.use(bodyParser.json({
+  limit: 100 * 1000 * 1000,    // max size of string, 100mb
+  strict: false                // for passing string in body
+}))
 app.use(fileUpload());
 app.use(authAPI)
 app.use(authDB)

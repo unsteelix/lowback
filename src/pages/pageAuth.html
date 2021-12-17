@@ -1,10 +1,41 @@
 <html>
   <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Poppins:wght@200&display=swap');
+
+      body {
+        font-family: 'Poppins', sans-serif;
+        font-family: 'Montserrat', sans-serif;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #pass-input {
+        outline: none;
+        border: none;
+        padding: 0.5rem;
+        font-size: 1.5rem;
+        border: 1px solid gainsboro;
+        text-align: center;
+
+        -webkit-box-shadow: 0px 5px 15px -1px rgba(34, 60, 80, 0.2);
+        -moz-box-shadow: 0px 5px 15px -1px rgba(34, 60, 80, 0.2);
+        box-shadow: 0px 5px 15px -1px rgba(34, 60, 80, 0.2);
+      }
+      .one-link {
+        margin: 1rem 0;
+        font-size: 1.5rem;
+      }
+      a {
+        text-decoration: none;
+        color: cadetblue;
+      }
+    </style>
   </head>
   <body>
 
-    <h1>server is live</h1>
     <input type="password" id="pass-input" />
     
 
@@ -24,15 +55,15 @@
               document.cookie = `token=${token}`;
 
               $('body').html(`
-                <div><a href="/get/">/</a></div>
-                <div><a href="/page/upload">upload</a></div>
-                <div><a href="/page/admin">admin</a></div>
-                <div><a href="/files/your_image_id">files</a></div>
-                <div><a href="/images/your_image_id">images</a></div>
-                <div><a href="/images/your_image_id/version">images alt ver</a></div>
+                <div class="links">
+                  <div class="one-link"><a href="/get/">/</a></div>
+                  <div class="one-link"><a href="/page/admin">Admin</a></div>
+                  <div class="one-link"><a href="/files/your_image_id">Example: files</a></div>
+                  <div class="one-link"><a href="/images/your_image_id">Example: images</a></div>
+                  <div class="one-link"><a href="/images/your_image_id/version">Example: images alt ver</a></div>
+                </div>
               `);
 
-              //window.location.replace("/get/");
             }
           });
 

@@ -10,8 +10,6 @@ const pushRoute = (req: Request, res: Response, next: NextFunction) => {
       
         const data = req.body;
       
-        console.log('\n\n---[', req.params, ']----\n\n')
-
         const newData = DBC.push(path, data);
         res.json(newData)
 

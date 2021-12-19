@@ -8,12 +8,13 @@ import { initializeDBSkeleton } from './utils';
 import authAPI from './middleWares/authAPI';
 import authDB from './middleWares/authDB';
 import errorResponder from './middleWares/errorResponder';
-
+import cors from 'cors';
 
 
 const app = express();
 
 // middlewares
+app.use(cors())
 app.use(bodyParser.json({
   limit: 100 * 1000 * 1000,    // max size of string, 100mb
   strict: false                // for passing string in body

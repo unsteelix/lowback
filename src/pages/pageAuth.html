@@ -2,15 +2,17 @@
   <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Poppins:wght@200&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=Inconsolata&display=swap');
 
       body {
-        font-family: 'Poppins', sans-serif;
-        font-family: 'Montserrat', sans-serif;
+        font-family: 'Fira Code', monospace;
+        font-family: 'Inconsolata', monospace;
 
         display: flex;
         justify-content: center;
         align-items: center;
+
+        background-image: url("https://picsum.photos/1920/1440?a");
       }
       #pass-input {
         outline: none;
@@ -37,7 +39,6 @@
   <body>
 
     <input type="password" id="pass-input" />
-    
 
     <script>
 
@@ -56,6 +57,7 @@
 
               $('body').html(`
                 <div class="links">
+                  <img src="https://picsum.photos/450/300?a" />
                   <div class="one-link"><a href="/get/">/</a></div>
                   <div class="one-link"><a href="/page/admin">Admin</a></div>
                   <div class="one-link"><a href="/files/your_image_id">Example: files</a></div>

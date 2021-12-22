@@ -19,13 +19,13 @@ const imagesRoute = (req: Request, res: Response, next: NextFunction) => {
         
         const __dirname = path.resolve();
     
-        let filePath = null;
+        let fileName = null;
     
         /**
          * original
          */
         if(!version){
-            filePath = DBF.get(`/files/${id}/name`)
+            fileName = id + '.' + DBF.get(`/${id}/format`);
         } else {
             
             /**
@@ -35,10 +35,10 @@ const imagesRoute = (req: Request, res: Response, next: NextFunction) => {
                 throw new Error(`modificator "${version}" not exist. Available: "optimized", "w1920", "w1280", "w640"`)
             }
     
-            filePath = DBF.get(`/files/${id}/data/${version}`)
+            fileName = DBF.get(`/${id}/data/${version}`)
         }
     
-        res.sendFile(path.join(__dirname, files_path, filePath))
+        res.sendFile(path.join(__dirname, files_path, fileName))
         
     } catch(e) {
         next(e)

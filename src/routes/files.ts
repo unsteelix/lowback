@@ -14,9 +14,9 @@ const filesRoute = (req: Request, res: Response, next: NextFunction) => {
         
         const __dirname = path.resolve();
     
-        const filePath = DBF.get(`/files/${id}/name`)
+        const fileName = id + '.' + DBF.get(`/${id}/format`)
     
-        res.sendFile(path.join(__dirname, files_path, filePath))
+        res.sendFile(path.join(__dirname, files_path, fileName))
         
     } catch(e) {
         next(e)

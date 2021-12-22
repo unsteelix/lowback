@@ -4,6 +4,7 @@ import { uid } from 'uid/secure';
 import { filesDB as DBF } from '../database'
 import { files_path } from '../config';
 import log from '../logger';
+import { getImgDimensions } from '../utils';
 
 const __dirname = path.resolve();
 
@@ -37,15 +38,18 @@ const uploadFilesRoute = (req: Request, res: Response, next: NextFunction) => {
     
             const { name, size, mimetype } = file;
     
-            const id = uid(32);
+            const id = uid(14);
     
             const format = name.split('.')[name.split('.').length - 1]
             const newName = `${id}.${format}`;
             
             const uploadPath = path.join(__dirname , files_path, newName);
+
+            const type = mimetype.split('/')[0]
+            const date = new Date()
     
             const promise = new Promise((resolve, reject) => {
-                file.mv(uploadPath, (err: any) => {
+                file.mv(uploadPath, async (err: any) => {
                     if (err) {
                         const val = {
                             status: "error",
@@ -57,24 +61,34 @@ const uploadFilesRoute = (req: Request, res: Response, next: NextFunction) => {
     
                     } else {
     
+                        const dimensions = await getImgDimensions(uploadPath);
+
                         const val = {
                             status: "success",
                             value: {
                                 id,
                                 name,
                                 size,
+                                format,
                                 mimetype,
-                                path: `/files/${id}`,
+                                type,
+                                date,
+                                data: {
+                                    ...dimensions
+                                }
                             }
                         }
     
-                        DBF.push(`/files/${id}`, {
-                            id,
-                            name: newName,
+                        DBF.push(`/${id}`, {
                             originalName: name,
+                            format,
                             size,
+                            date,
                             mimetype,
-                            type: 'file'
+                            type,
+                            data: {
+                                ...dimensions
+                            }
                         })
                         listRes.push(val)
     

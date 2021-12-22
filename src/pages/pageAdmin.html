@@ -2,22 +2,25 @@
   <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Poppins:wght@200&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=Inconsolata&display=swap');
 
       body {
-        font-family: 'Montserrat', sans-serif;
-
+        font-family: 'Fira Code', monospace;
+        font-family: 'Inconsolata', monospace;
 
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        height: 100vh;
+        padding: 0;
+        margin: 0;
       }
       .edit-block {
         display: flex;
 
         width: 700px;
-        height: 500px;
+        height: 100%;
         border: 1px solid gainsboro;
       }
       .col-1 {
@@ -44,7 +47,7 @@
         color: white;
       }
       .one-db.selected {
-        background-color: black;
+        background-color: #5184c3d6;
         color: white;
       }
       .col-2 {
@@ -66,22 +69,22 @@
       }
       .json-input {
         width: 100%;
-        height: 100%;
+        height: auto;
       }
       #json-textarea {
-        font-family: 'Montserrat', sans-serif;
-
+        font-family: 'Fira Code', monospace;
+        font-family: 'Inconsolata', monospace;
+        
         width: 100%;
         height: calc(100% - 51px);
         outline: none;
         border: none;
         padding: 15px;
-        font-size: 1rem;
+        font-size: 1.2rem;
         resize: none;
       }
       #message-block {
         font-size: 1rem;
-        margin: 1rem 0;
       }
       .one-message {
         margin: 0 1rem;
@@ -122,7 +125,7 @@
       <div class="col-1">
 
         <div class="buttons-group">
-          <div class="one-db dbc-button" onclick="onDBclick('dbc')">
+          <div class="one-db dbc-button selected" onclick="onDBclick('dbc')">
             DBC
           </div>
           <div class="one-db dbf-button" onclick="onDBclick('dbf')">
@@ -171,24 +174,22 @@
     <div id="message-block"></div>
 
     <div class="upload-block">
-      <h1>Files</h1>
+      <span>Files</span>
       <form ref='uploadForm' 
         id='uploadForm' 
         action='/upload/files' 
         method='post' 
         encType="multipart/form-data">
           <input type="file" name="sampleFile" multiple />
-          <input type="file" name="sampleFile222" multiple />
           <input type='submit' value='Upload Files!' />
       </form>  
-      <h1>Images</h1>
+      <span>Images</span>
       <form ref='uploadForm' 
         id='uploadForm' 
         action='/upload/images' 
         method='post' 
         encType="multipart/form-data">
           <input type="file" name="sampleFile" multiple />
-          <input type="file" name="sampleFile222" multiple />
           <input type='submit' value='Upload Images!' />
       </form>     
     </div>
@@ -208,7 +209,7 @@
       let path = '';
 
       // dbc / dbf / dbs
-      let selectedDB = null
+      let selectedDB = 'dbc'
 
       const onDBclick = (db) => {
         switch(db) {

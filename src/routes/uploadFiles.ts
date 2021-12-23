@@ -8,7 +8,7 @@ import { getImgDimensions } from '../utils';
 
 const __dirname = path.resolve();
 
-const uploadFilesRoute = (req: Request, res: Response, next: NextFunction) => {
+const uploadFilesRoute = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
         log.info('[UPLOAD FILES]');
@@ -34,22 +34,23 @@ const uploadFilesRoute = (req: Request, res: Response, next: NextFunction) => {
         let listRes: any[] = [];
         const listPromise: any[] = [];
     
-        files.forEach((file: any) => {
-    
+
+        for (const file of files) {
+
             const { name, size, mimetype } = file;
     
-            const id = uid(14);
-    
+            const dimensions = await getImgDimensions(file.data);    
             const format = name.split('.')[name.split('.').length - 1]
+            const type = mimetype.split('/')[0]
+            const date = new Date()
+
+            const id = type === 'image' ? uid(14) + `_${dimensions.width}` + `_${dimensions.height}` : uid(14);
             const newName = `${id}.${format}`;
             
             const uploadPath = path.join(__dirname , files_path, newName);
-
-            const type = mimetype.split('/')[0]
-            const date = new Date()
     
             const promise = new Promise((resolve, reject) => {
-                file.mv(uploadPath, async (err: any) => {
+                file.mv(uploadPath, (err: any) => {
                     if (err) {
                         const val = {
                             status: "error",
@@ -61,8 +62,6 @@ const uploadFilesRoute = (req: Request, res: Response, next: NextFunction) => {
     
                     } else {
     
-                        const dimensions = await getImgDimensions(uploadPath);
-
                         const val = {
                             status: "success",
                             value: {
@@ -99,7 +98,8 @@ const uploadFilesRoute = (req: Request, res: Response, next: NextFunction) => {
             });
     
             listPromise.push(promise)
-        })
+        }
+
     
         Promise.all(listPromise).then(() => {
             res.send(listRes)

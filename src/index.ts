@@ -10,11 +10,19 @@ import authDB from './middleWares/authDB';
 import errorResponder from './middleWares/errorResponder';
 import cors from 'cors';
 
+import serveStatic from 'serve-static';
+import path from 'path';
+const __dirname = path.resolve();
 
 const app = express();
 
 // middlewares
 app.use(cors())
+
+
+app.use(serveStatic(path.join(__dirname, 'volume/files')))
+
+
 app.use(bodyParser.json({
   limit: 100 * 1000 * 1000,    // max size of string, 100mb
   strict: false                // for passing string in body
